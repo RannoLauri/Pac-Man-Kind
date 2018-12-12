@@ -10,6 +10,8 @@ def redrawGameWindow():
     global ghost2Vel
     global ghost3X
     global ghost3Vel
+    global ghost4X
+    global ghost4Vel
     
     if walkCount == 2:
         walkCount = 0
@@ -34,6 +36,9 @@ def redrawGameWindow():
     if down:
         screen.blit(pacmanDown[walkCount], (x, y))
     
+    ###Ghosts movement part###
+        
+    #Ghost number 1
     screen.blit(ghost1, (ghost1X, ghost1Y))
     
     if ghost1Y == 25:
@@ -41,8 +46,13 @@ def redrawGameWindow():
     if ghost1Y == 525:
         ghost1Vel = ghost1Vel * (-1)
     
-    ghost1Y += ghost1Vel
+    #Checks if there is a collision
+    if ghost1X == x and ghost1Y == y-20 or ghost1X == x and ghost1Y == y+20:
+        youLostText()
+    else:
+        ghost1Y += ghost1Vel
     
+    #Ghost number 2
     screen.blit(ghost2, (ghost2X, ghost2Y))
     
     if ghost2Y == 525:
@@ -50,19 +60,53 @@ def redrawGameWindow():
     if ghost2Y == 25:
         ghost2Vel = ghost2Vel * (-1)
     
-    ghost2Y -= ghost2Vel
+    #Checks if there is a collision
+    if ghost2X == x and ghost2Y == y-20 or ghost2X == x and ghost2Y == y+20:
+        youLostText()
+    else:
+        ghost2Y -= ghost2Vel
     
+    #Ghost number 3
     screen.blit(ghost3, (ghost3X, ghost3Y))
     
     if ghost3X == 25:
         ghost2Vel = 20
     if ghost3X == 525:
-        ghost2Vel = ghost3Vel * (-1)
+        ghost3Vel = ghost3Vel * (-1)
     
-    ghost3X += ghost2Vel
+    #Checks if there is a collision
+    if ghost3X == x+20 and ghost3Y == y or ghost3X == x-20 and ghost3Y == y:
+        youLostText()
+    else:
+        ghost3X += ghost3Vel
+        
+    #Ghost number 4
+    screen.blit(ghost4, (ghost4X, ghost4Y))
+    
+    if ghost4X == 185:
+        ghost4Vel = 20
+    if ghost4X == 365:
+        ghost4Vel = ghost4Vel * (-1)
+    
+    #Checks if there is a collision
+    if ghost4X == x+20 and ghost4Y == y or ghost4X == x-20 and ghost4Y == y:
+        youLostText()
+    else:
+        ghost4X += ghost4Vel
         
     
     pygame.display.update()
+
+def youLostText():
+    finishTime = time.time()
+    time_elapsed = round((finishTime - startTime), 2)
+    text_on_screen("YOU LOST", green, 50, 190, 260)
+    text_on_screen(("Time: " + str(time_elapsed) + " seconds"), green, 50, 120, 300)
+    pygame.display.update()
+    time.sleep(3)
+    pygame.quit()
+    quit()
+    
 
 #Text drawing function
 def text_on_screen(text, colour, size, x, y):
@@ -87,6 +131,7 @@ pacmanDown = [pygame.image.load('DW1.png'), pygame.image.load('DW2.png')]
 ghost1 = pygame.image.load('ghost1.png')
 ghost2 = pygame.image.load('ghost2.png')
 ghost3 = pygame.image.load('ghost3.png')
+ghost4 = pygame.image.load('ghost4.png')
 
 
 #Changing sprites size
@@ -97,9 +142,10 @@ for i in range(len(pacmanRight)):
     pacmanDown[i] = pygame.transform.scale(pacmanDown[i], (10, 10))
 ghost1 = pygame.transform.scale(ghost1, (10, 10))
 ghost2 = pygame.transform.scale(ghost2, (10, 10))
-ghost3 = pygame.transform.scale(ghost2, (10, 10))
+ghost3 = pygame.transform.scale(ghost3, (10, 10))
+ghost4 = pygame.transform.scale(ghost4, (10, 10))
 
-#Starting position
+#Starting positions
 x = 25
 y = 285
 
@@ -109,12 +155,16 @@ ghost2X = 425
 ghost2Y = 525
 ghost3X = 25
 ghost3Y = 585
+ghost4X = 365
+ghost4Y = 225
 
 #Speed
 vel = 20
 ghost1Vel = 20
 ghost2Vel = -20
 ghost3Vel = 20
+ghost4Vel = 20
+
 
 height = 10
 width = 10
