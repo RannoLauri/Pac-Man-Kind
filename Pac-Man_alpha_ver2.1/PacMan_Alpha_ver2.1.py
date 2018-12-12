@@ -3,15 +3,7 @@ import time
 
 #Screen update function
 def redrawGameWindow():
-    global walkCount
-    global ghost1Y
-    global ghost1Vel
-    global ghost2Y
-    global ghost2Vel
-    global ghost3X
-    global ghost3Vel
-    global ghost4X
-    global ghost4Vel
+    global walkCount, ghost1Y, ghost1Vel, ghost2Y, ghost2Vel, ghost3X, ghost3Vel, ghost4X, ghost4Vel
     
     if walkCount == 2:
         walkCount = 0
@@ -47,7 +39,7 @@ def redrawGameWindow():
         ghost1Vel = ghost1Vel * (-1)
     
     #Checks if there is a collision
-    if ghost1X == x and ghost1Y == y-20 or ghost1X == x and ghost1Y == y+20:
+    if ghost1X == x and ghost1Y == y-20 or ghost1X == x and ghost1Y == y+20 or ghost1X == x and ghost1Y == y:
         youLostText()
     else:
         ghost1Y += ghost1Vel
@@ -61,7 +53,7 @@ def redrawGameWindow():
         ghost2Vel = ghost2Vel * (-1)
     
     #Checks if there is a collision
-    if ghost2X == x and ghost2Y == y-20 or ghost2X == x and ghost2Y == y+20:
+    if ghost2X == x and ghost2Y == y-20 or ghost2X == x and ghost2Y == y+20 or ghost2X == x and ghost2Y == y:
         youLostText()
     else:
         ghost2Y -= ghost2Vel
@@ -75,7 +67,7 @@ def redrawGameWindow():
         ghost3Vel = ghost3Vel * (-1)
     
     #Checks if there is a collision
-    if ghost3X == x+20 and ghost3Y == y or ghost3X == x-20 and ghost3Y == y:
+    if ghost3X == x+20 and ghost3Y == y or ghost3X == x-20 and ghost3Y == y or ghost3X == x and ghost3Y == y:
         youLostText()
     else:
         ghost3X += ghost3Vel
@@ -89,7 +81,7 @@ def redrawGameWindow():
         ghost4Vel = ghost4Vel * (-1)
     
     #Checks if there is a collision
-    if ghost4X == x+20 and ghost4Y == y or ghost4X == x-20 and ghost4Y == y:
+    if ghost4X == x+20 and ghost4Y == y or ghost4X == x-20 and ghost4Y == y or ghost4X == x and ghost4Y == y:
         youLostText()
     else:
         ghost4X += ghost4Vel
@@ -112,7 +104,6 @@ def youLostText():
 def text_on_screen(text, colour, size, x, y):
     font = pygame.font.SysFont(None, int(size)) #(None, font size)
     tekst_ekraanil = font.render(text, True, colour) #True - anti analysing
-    # (text, location)
     screen.blit(tekst_ekraanil, [x, y] )
 
 startTime = time.time()
@@ -229,17 +220,11 @@ for i in range(len(mapTest)):
                 elif mapTest[i][j][k] == '*': #Score list
                     coins.append(str(k*20) + ':' + str(i*20))
 
-#print(coins)
- 
-#print(mapTest[1][0][1])
- 
 run = True
 
 while run:
-    
-    print(x,y)
 
-    clock.tick(5) #fps
+    clock.tick(10) #fps
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
