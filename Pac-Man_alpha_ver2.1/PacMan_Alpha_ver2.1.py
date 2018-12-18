@@ -5,7 +5,7 @@ import time
 def redrawGameWindow():
     global walkCount, ghost1Y, ghost1Vel, ghost2Y, ghost2Vel, ghost3X, ghost3Vel, ghost4X, ghost4Vel
     
-    if walkCount == 2:
+    if walkCount >= 2:
         walkCount = 0
     
     screen.fill((0,0,0))
@@ -27,6 +27,7 @@ def redrawGameWindow():
         screen.blit(pacmanUp[walkCount], (x, y))
     if down:
         screen.blit(pacmanDown[walkCount], (x, y))
+        
     
     ###Ghosts movement part###
         
@@ -95,7 +96,7 @@ def youLostText():
     text_on_screen("YOU LOST", green, 50, 190, 260)
     text_on_screen(("Time: " + str(time_elapsed) + " seconds"), green, 50, 120, 300)
     pygame.display.update()
-    time.sleep(3)
+    time.sleep(2)
     pygame.quit()
     quit()
     
@@ -223,7 +224,7 @@ for i in range(len(mapTest)):
 run = True
 
 while run:
-
+    print(x,y)
     clock.tick(10) #fps
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
